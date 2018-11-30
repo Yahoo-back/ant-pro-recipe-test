@@ -1,4 +1,6 @@
-import { fakeRegister, checkEmail } from '../services/api';
+import { routerRedux } from 'dva/router';
+import { fakeRegister } from '../services/api';
+import { message } from 'antd';
 
 export default {
   namespace: 'register',
@@ -10,40 +12,14 @@ export default {
     error: '',
   },
 
-  effects: {
-    *submit({ payload }, { call, put }) {
-      const response = yield call(fakeRegister, payload);
-      if (response.code === 0) {
-        yield put({
-          type: 'registerHandle',
-          payload: {
-            userId: response.data,
-            status: true,
-          },
-        });
-      } else {
-        yield put({
-          type: 'registerHandle',
-          payload: {
-            status: false,
-            error: response.msg,
-          },
-        });
-      }
-    },
-
-    *checkEmailExist({ payload }, { call, put }) {
-      const response = yield call(checkEmail, payload);
-      if (response.code === 0) {
-        yield put({
-          type: 'checkEmail',
-          payload: response.data,
-        });
-      }
-    },
-  },
-
   reducers: {
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      };
+    },
+
     registerHandle(state, { payload }) {
       return {
         ...state,
@@ -58,6 +34,17 @@ export default {
         ...state,
         isExist: payload,
       };
+    },
+  },
+
+  effects: {
+    *submit({ payload }, { call, put }) {
+      const data = yield call(fakeRegister, payload);
+      if (data.isSuccess == true) {
+        message.success(`${data.message}，请登录！`);
+      } else {
+        message.error(data.message);
+      }
     },
   },
 };

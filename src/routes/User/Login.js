@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
-import { Form, Input,Button, Icon, Alert } from 'antd';
+import { Form, Input, Button, Icon, Alert } from 'antd';
 import styles from './Login.less';
 import styleIcon from './Icon.less';
 
@@ -14,7 +14,6 @@ let count = 0;
 }))
 @Form.create()
 export default class Login extends Component {
-
   constructor(props) {
     super(props);
 
@@ -25,53 +24,39 @@ export default class Login extends Component {
     this.toQQLogin = this.toQQLogin.bind(this);
   }
 
-  componentDidMount() {
-    const url = location.href;
-    const hashCode = this.getCodeAndState(url);
-    let arrayList;
-    let code;  // code标识
-    let status;  // 状态码
-    let loginType;  // 登录类型
-    if (hashCode) {
-      arrayList = hashCode.split('&');
-      if (arrayList && arrayList.length === 2) {  // qq登录传递code和state
-        code = arrayList[0].split('=')[1];
-        status = arrayList[1].split('=')[1];
-        loginType = 'qq';
-      } else if (arrayList && arrayList.length === 1) { // github只传递code
-        code = arrayList[0].split('=')[1];
-        status = 1;
-        loginType = 'github';
-      }
-    }
-    if (code && status) {
-      this.props.dispatch({
-        type: 'login/submit',
-        payload: {
-          'code': code,
-          'state': status,
-          'type': loginType,
-        },
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.login.status === true) {
-      if (nextProps.login.isFirst === 'true') {
-        window.location.href = `/usercenter/write/${nextProps.login.userName}`; // 跳到填写个人信息页
-      } else {
-        const beforeUrl = localStorage.getItem('nowUrl');
-        if (beforeUrl) {
-          localStorage.removeItem('nowUrl');
-          window.location.href = beforeUrl; // 跳转到之前页
-        } else {
-          window.location.href = '/'; // 跳转到题目首页
-        }
-      }
-    }
-    count += 1;
-  }
+  // github/qq登录
+  // componentDidMount() {
+  //   const url = location.href;
+  //   const hashCode = this.getCodeAndState(url);
+  //   let arrayList;
+  //   let code; // code标识
+  //   let status; // 状态码
+  //   let loginType; // 登录类型
+  //   if (hashCode) {
+  //     arrayList = hashCode.split('&');
+  //     if (arrayList && arrayList.length === 2) {
+  //       // qq登录传递code和state
+  //       code = arrayList[0].split('=')[1];
+  //       status = arrayList[1].split('=')[1];
+  //       loginType = 'qq';
+  //     } else if (arrayList && arrayList.length === 1) {
+  //       // github只传递code
+  //       code = arrayList[0].split('=')[1];
+  //       status = 1;
+  //       loginType = 'github';
+  //     }
+  //   }
+  //   if (code && status) {
+  //     this.props.dispatch({
+  //       type: 'login/submit',
+  //       payload: {
+  //         code,
+  //         state: status,
+  //         type: loginType,
+  //       },
+  //     });
+  //   }
+  // }
 
   componentWillUnmount() {
     count = 0;
@@ -96,6 +81,7 @@ export default class Login extends Component {
     }
   }
 
+  // 登录接口联调
   handleSubmit = e => {
     e.preventDefault();
     const { type } = this.state;
@@ -123,7 +109,6 @@ export default class Login extends Component {
     return <Alert style={{ marginBottom: 24 }} message={message} type="error" showIcon />;
   };
 
-
   render() {
     const { form, login } = this.props;
     const { getFieldDecorator } = form;
@@ -145,7 +130,7 @@ export default class Login extends Component {
                 size="large"
                 prefix={<Icon type="user" className={styles.prefixIcon} />}
                 placeholder="邮箱"
-                style={{marginTop: 40}}
+                style={{ marginTop: 40 }}
               />
             )}
           </FormItem>
@@ -186,7 +171,9 @@ export default class Login extends Component {
           <a href="https://github.com/login/oauth/authorize?client_id=080191e49e855122ea33&scope=user:email">
             <span className={styleIcon.iconGithub} />
           </a>
-          <Link className={styles.register} to="/user/register">注册账户</Link>
+          <Link className={styles.register} to="/user/register">
+            注册账户
+          </Link>
         </div>
       </div>
     );

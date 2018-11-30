@@ -42,61 +42,6 @@ const menuData = [
   //     },
   //   ],
   // },
-  {
-    name: '题库',
-    icon: 'table',
-    path: 'problem',
-    children: [
-      // {
-      //   name: '公开题库',
-      //   path: 'open',
-      // },
-      {
-        path: 'detail/:id',
-      },
-      // {
-      //   name: '个人题库',
-      //   path: 'personal',
-      // },
-      // {
-      //   name: '卡片列表',
-      //   path: 'card-list',
-      // },
-      // {
-      //   name: '搜索列表',
-      //   path: 'search',
-      //   children: [
-      //     {
-      //       name: '搜索列表（文章）',
-      //       path: 'articles',
-      //     },
-      //     {
-      //       name: '搜索列表（项目）',
-      //       path: 'projects',
-      //     },
-      //     {
-      //       name: '搜索列表（应用）',
-      //       path: 'applications',
-      //     },
-      //   ],
-      // },
-    ],
-  },
-  {
-    name: '评测',
-    icon: 'profile',
-    path: 'submission',
-    children: [
-      {
-        path: 'detail/:id',
-      },
-    ],
-  },
-  {
-    name: '排行榜',
-    icon: 'trophy',
-    path: 'rank',
-  },
   // {
   //   name: '详情页',
   //   icon: 'profile',
@@ -152,6 +97,11 @@ const menuData = [
   //     },
   //   ],
   // },
+  {
+    name: '用户',
+    icon: 'user',
+    path: 'users',
+  },
   {
     name: '账户',
     icon: 'user',

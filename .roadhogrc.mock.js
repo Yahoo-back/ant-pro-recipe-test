@@ -124,15 +124,15 @@ const proxy = {
   //     });
   //   }
   // },
-  // 'POST /apiv1/register': (req, res) => {
-  //   res.send({
-  //     code: 0,
-  //     data: {
-  //       status: true,
-  //       userId: '123456',
-  //     },
-  //   });
-  // },
+  'POST /user/register': (req, res) => {
+    res.send({
+      code: 0,
+      data: {
+        status: true,
+        userId: '123456',
+      },
+    });
+  },
   // 'POST /apiv1/check': (req, res) => {
   //   res.send({
   //     code: 0,

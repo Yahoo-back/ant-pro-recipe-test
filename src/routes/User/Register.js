@@ -6,6 +6,7 @@ import styles from './Register.less';
 
 const FormItem = Form.Item;
 
+// 密码强度验证
 const passwordStatusMap = {
   ok: <div className={styles.success}>强度：强</div>,
   pass: <div className={styles.warning}>强度：中</div>,
@@ -27,7 +28,7 @@ let count = 0;
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    this.checkEmailExist = this.checkEmailExist.bind(this);
+    // this.checkEmailExist = this.checkEmailExist.bind(this);
   }
 
   state = {
@@ -36,32 +37,11 @@ export default class Register extends Component {
     help: '',
   };
 
-  componentWillReceiveProps(nextProps) {
-    // 判断注册是否成功
-    if (nextProps.register.status === true && count === 0) {
-      count += 1;
-      message.success('注册成功！');
-      this.props.dispatch(routerRedux.push('/user/login'));
-    } else if (nextProps.register.status === false && count === 0) {
-      count += 1;
-      notification.error({
-        message: '注册提示',
-        description: nextProps.register.error,
-      });
-    }
-
-    // 判断邮箱是否存在
-    // if (nextProps.register.isExist === true) {
-    //   this.setState({
-    //     exist: true,
-    //   });
-    // }
-  }
-
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  // 密码强度验证
   getPasswordStatus = () => {
     const { form } = this.props;
     const value = form.getFieldValue('password');
@@ -74,6 +54,7 @@ export default class Register extends Component {
     return 'pool';
   };
 
+  // 注册接口
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields({ force: true }, (err, values) => {
@@ -87,11 +68,13 @@ export default class Register extends Component {
     });
   };
 
+  // 密码验证
   handleConfirmBlur = e => {
     const { value } = e.target;
     this.setState({ confirmDirty: this.state.confirmDirty || !!value });
   };
 
+  // 两次输入密码验证
   checkConfirm = (rule, value, callback) => {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
@@ -101,6 +84,7 @@ export default class Register extends Component {
     }
   };
 
+  // 密码验证
   checkPassword = (rule, value, callback) => {
     if (!value) {
       this.setState({
@@ -129,20 +113,7 @@ export default class Register extends Component {
     }
   };
 
-  checkEmailExist(e) {
-    const email = e.target.value;
-    const reg = /^([a-zA-Z0-9_-])+@[a-zA-Z0-9_-]+((\.[a-z]{2,3}){1,2})$/;
-    if (email !== '' && reg.test(email)) {
-      const { dispatch } = this.props;
-      dispatch({
-        type: 'register/checkEmailExist',
-        payload: {
-          email,
-        },
-      });
-    }
-  }
-
+  // 密码验证
   renderPasswordProgress = () => {
     const { form } = this.props;
     const value = form.getFieldValue('password');
@@ -163,8 +134,6 @@ export default class Register extends Component {
   render() {
     const { form, register } = this.props;
     const { getFieldDecorator } = form;
-    // const { exist } = this.state;
-    // const warnInfo = exist ? '该邮箱已注册' : '';
     return (
       <div className={styles.main}>
         <h3>注册</h3>
