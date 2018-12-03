@@ -1,8 +1,18 @@
 import { getMeunMatcheys } from './SiderMenu';
 
-const meun = ['/dashboard', '/userinfo', '/dashboard/name', '/userinfo/:id', '/userinfo/:id/info'];
+const meun = [
+  '/users',
+  '/dashboard',
+  '/userinfo',
+  '/dashboard/name',
+  '/userinfo/:id',
+  '/userinfo/:id/info',
+];
 
 describe('test meun match', () => {
+  it('simple path', () => {
+    expect(getMeunMatcheys(meun, '/users')).toEqual(['/users']);
+  });
   it('simple path', () => {
     expect(getMeunMatcheys(meun, '/dashboard')).toEqual(['/dashboard']);
   });
