@@ -29,25 +29,11 @@ export default {
   effects: {
     *submit({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
+      console.log(localStorage);
       if (response.isSuccess == true) {
-        // yield put({
-        //   type: 'updateState',
-        //   payload: {
-        //     status: true,
-        //     userName: response.data.user_name,
-        //   },
-        // });
-        // sessionStorage.setItem('userId', response.data.user_id);
-        // sessionStorage.setItem('userName', response.data.user_name);
         message.success(response.message);
         yield put(routerRedux.push('/users'));
       } else {
-        // yield put({
-        //   type: 'changeLoginStatus',
-        //   payload: {
-        //     status: false,
-        //   },
-        // });
         message.error(response.message);
       }
     },

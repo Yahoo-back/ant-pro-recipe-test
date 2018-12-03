@@ -153,7 +153,7 @@ export default class GlobalHeader extends PureComponent {
           ) : (
             <div className={styles.loginAction} >
               <span onClick={this.saveUrlBeforeLogin} className={styles.login}>登录</span>
-              <Link to="/user/register" className={styles.register}>注册</Link>
+              <Link to="/user/register" className={styles.register}>注册555</Link>
             </div>
           )}
         </div>
